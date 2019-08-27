@@ -6,7 +6,7 @@ const koaBody = require('koa-body')
 const cors = require('koa2-cors');
 const PORT = process.env.PORT || 3000
 
-app.use(cors({origin: 'https://gongjs.github.io/'}))
+app.use(cors({origin: 'https://gongjs.github.io'}))
 app.use(koaStatic(path.join(__dirname, 'public')))
 app.use(koaBody({
   multipart:true,
