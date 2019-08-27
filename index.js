@@ -3,6 +3,7 @@ const app = new Koa();
 const path = require('path');
 const koaStatic = require('koa-static')
 const koaBody = require('koa-body')
+const cors = require('koa2-cors');
 const PORT = process.env.PORT || 3000
 
 app.use(cors({origin: 'https://gongjs.github.io/'}))
