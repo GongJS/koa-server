@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3000
 
 const hanldeImage = (filePath) => {
   return new Promise((resolve, reject) => {
-    gm(filePath).size((err, size) => {
+    gm(`./${filePath}`).size((err, size) => {
       if (!err) {
         resolve({
           width: size.width,
@@ -21,13 +21,12 @@ const hanldeImage = (filePath) => {
     })
   })
 }
-
 app.use(cors())
 app.use(koaStatic(path.join(__dirname, 'public')))
 app.use(koaBody({
   multipart: true,
   formidable: {
-    uploadDir: path.join(__dirname, '/public/uploads'),
+    uploadDir: path.join(__dirname, 'public/uploads'),
     keepExtensions: true,
   },
 }))
@@ -49,5 +48,5 @@ app.use(async (ctx, next) => {
 });
 
 app.listen(PORT, () => {
-  console.log('server is running at http://localhost:3000')
+  console.log(`server is running at http://localhost:${PORT}`)
 })
