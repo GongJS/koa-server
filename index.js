@@ -9,9 +9,12 @@ const PORT = process.env.PORT || 3000
 
 const hanldeImage = (filePath) => {
   return new Promise((resolve, reject) => {
-    gm(filePath).size((err,size) => {
+    gm(filePath).size((err, size) => {
       if (!err) {
-        resolve({width:size.width, height:size.height})
+        resolve({
+          width: size.width,
+          height: size.height
+        })
       } else {
         reject(err)
       }
