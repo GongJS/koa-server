@@ -12,9 +12,11 @@
   "license": "ISC",
   "dependencies": {
     "@koa/cors": "^2.2.3",
+    "axios": "^0.24.0",
     "gm": "^1.23.1",
     "koa": "^2.8.1",
     "koa-body": "^4.1.1",
+    "koa-multipart": "0.0.1",
     "koa-static": "^5.0.0"
   }
 }

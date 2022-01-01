@@ -1,27 +1,17 @@
 const Koa = require('koa');
 const app = new Koa();
 const path = require('path');
+const axios = require('axios');
 const koaStatic = require('koa-static')
+const multipart = require('koa-multipart');
 const koaBody = require('koa-body')
-const gm = require('gm')
 const cors = require('@koa/cors');
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 5000
 
-const hanldeImage = (filePath) => {
-  return new Promise((resolve, reject) => {
-    gm(`./${filePath}`).size((err, size) => {
-      if (!err) {
-        resolve({
-          width: size.width,
-          height: size.height
-        })
-      } else {
-        reject(err)
-      }
-    })
-  })
-}
+const baseH5URL = 'http://1.116.156.44:8082';
+
 app.use(cors())
+app.use(multipart())
 app.use(koaStatic(path.join(__dirname, 'public')))
 app.use(koaBody({
   multipart: true,
@@ -31,20 +21,13 @@ app.use(koaBody({
   },
 }))
 app.use(async (ctx, next) => {
-  if (ctx.request.url === '/upload') {
-    const file = ctx.request.files.post
-    const basename = path.basename(file.path)
-    const imageRes = await hanldeImage(`public/uploads/${basename}`)
-    const height = imageRes.height
-    const width = imageRes.width
-    ctx.body = {
-      url: `${ctx.origin}/uploads/${basename}`,
-      width,
-      height
-    }
-  } else {
+  if (ctx.request.url.includes('/p/')) {
+    const res = await axios.get(`${baseH5URL}${ctx.request.url}`)
+    ctx.body = res.data
     await next();
-  }
+  } else {
+    ctx.body = 'not found'
+  }  
 });
 
 app.listen(PORT, () => {
